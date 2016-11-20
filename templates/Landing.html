@@ -23,7 +23,8 @@
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">{{ course }} <span class="sr-only">(current)</span></a></li>
+					<li class="active"><a href="#">WXYZ0001 <span class="sr-only">(current)</span></a></li>
+					<li><a href="#">John Smith</a></li>
 				</ul>
 				<ul class="nav navbar-right">
 				<form class="navbar-form navbar-right" role="search">
@@ -40,15 +41,18 @@
 			<div class="col-md-2">
 				<!--Sidebar-->
 				<div class="list-group">
-                    <form method="POST">
-                        {% for button in navbar %}
-                            {{ button|safe }}
-                        {% endfor %}
-                    </form>
+					<button type="button" class="list-group-item list-group-item-action active">Homepage</button>
+					<button type="button" class="list-group-item list-group-item-action">Course Outline</button>
+					<button type="button" class="list-group-item list-group-item-action">Timetable</button>
+					<button type="button" class="list-group-item list-group-item-action">Labs</button>
+					<button type="button" class="list-group-item list-group-item-action">Assignments</button>
+					<button type="button" class="list-group-item list-group-item-action disabled">Tutors</button>
 				</div>
 			</div>
 			<div class="col-md-6">
-                {{ content|safe }}
+				<h2>Welcome to WXYZ1234!</h2>
+				<h4>This text will be written in Markdown and published using cradle</h4>
+				<p>Hi everyone, welcome to this course. I hope you learn everything you need to</p>
 			</div>
 		</div>
 	</div>
