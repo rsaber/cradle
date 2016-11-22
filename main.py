@@ -24,8 +24,26 @@ def close_connection(exception):
         db.close()
 
 # Routing code
+@app.route('/', methods=['GET', 'POST'])
+def main():
+    db = get_db()
+    if request.method == "POST":
+        if request.form['username'] and request.form['password']:
+            usr = request.form['username']
+            passw = request.form['password']
+            c = db.execute("SELECT PASSWORD FROM USERS WHERE NAME=?", (usr,)).fetchall()
+            if not 0 in c:
+                return render_template('landing.html', fail=1)
+            if passw == c[0][0]:
+                return render_template('dashboard.html')
+            else:
+                return render_template('landing.html', fail=1)
+        else:
+            return render_template('landing.html', fail=1)
+    return render_template('landing.html', fail=0)
+
 @app.route('/course/<code>', methods=['GET', 'POST'])
-def main(code):
+def getCourse(code):
     db = get_db()
     cursor = db.execute("SELECT OBJECT FROM COURSES WHERE NAME=?", (code,)).fetchall()
     course = pickle.loads(cursor[0][0])

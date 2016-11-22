@@ -41,7 +41,6 @@ class Course:
         markdown = '<div class="markdown-generated-output">\n'
         markdown = markdown + markdown_path(path, extras=["tables"])
         markdown = markdown + "</div>"
-        print markdown
         return markdown
     def updateState(self, newState):
         self.state = newState
