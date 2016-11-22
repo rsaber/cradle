@@ -13,7 +13,8 @@ gen.execute('''
 ''')
 gen.execute('''
 	CREATE TABLE USERS(
-		NAME STRING PRIMARY KEY NOT NULL,
+		EMAIL STRING PRIMARY KEY NOT NULL,
+		NAME STRING,
 		PASSWORD STRING
 	)
 ''')
@@ -31,5 +32,5 @@ nav = Navbar(navArray)
 COMP1234 = Course(nav, "COMP1234", "Homepage", docArray)
 
 gen.execute("INSERT INTO COURSES (NAME, OBJECT) VALUES (?,?)", ("COMP1234", pickle.dumps(COMP1234)))
-gen.execute("INSERT INTO USERS (NAME, PASSWORD) VALUES (?,?)", ("Zain", "1234"))
+gen.execute("INSERT INTO USERS (EMAIL, NAME, PASSWORD) VALUES (?,?,?)", ("zain.afz@gmail.com", "Zain Afzal", "1234"))
 gen.commit()

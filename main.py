@@ -28,10 +28,10 @@ def close_connection(exception):
 def main():
     db = get_db()
     if request.method == "POST":
-        if request.form['username'] and request.form['password']:
-            usr = request.form['username']
+        if request.form['email'] and request.form['password']:
+            usr = request.form['email']
             passw = request.form['password']
-            c = db.execute("SELECT PASSWORD FROM USERS WHERE NAME=?", (usr,)).fetchall()
+            c = db.execute("SELECT PASSWORD FROM USERS WHERE EMAIL=?", (usr,)).fetchall()
             if not 0 in c:
                 return render_template('landing.html', fail=1)
             if passw == c[0][0]:
@@ -42,6 +42,36 @@ def main():
             return render_template('landing.html', fail=1)
     return render_template('landing.html', fail=0)
 
+@app.route('/register', methods=['GET', 'POST'])
+def getRegister():
+    db = get_db()
+    if request.method == "POST":
+        name = request.form['name']
+        email = request.form['email']
+        pass1 = request.form['password1']
+        pass2 = request.form['password2']
+        PCF=0
+        PF=0
+        EF=0
+        if len(pass1) < 6:
+            PCF = 1
+        if pass1 != pass2:
+            PF = 1
+        c = db.execute("SELECT EMAIL FROM USERS WHERE EMAIL=?", (email,)).fetchall()
+        try:
+            c[0][0]
+        except IndexError:
+            EF=0
+        else:
+            EF = 1
+        if EF or PCF or PF:
+            return render_template('register.html', emailFail=EF, passwordFail=PF, passwordCharFail=PCF, name=name, email=email)
+        else:
+            db.execute("INSERT INTO USERS (EMAIL, NAME, PASSWORD) VALUES (?,?,?)", (email, name, pass1))
+            db.commit()
+            return  render_template('dashboard.html')
+    return render_template('register.html', emailFail=0, passwordFail=0, passwordCharFail=0)
+
 @app.route('/course/<code>', methods=['GET', 'POST'])
 def getCourse(code):
     db = get_db()
@@ -49,7 +79,7 @@ def getCourse(code):
     course = pickle.loads(cursor[0][0])
     if request.method == "POST" and request.form['navbar']:
         course.updateState(request.form['navbar']) #update state
-    return render_template('layout.html', course=course.name, navbar=course.getNavbar(), content=course.getContent())
+    return render_template('coursePage.html', course=course.name, navbar=course.getNavbar(), content=course.getContent())
 
 
 if __name__ == '__main__':
