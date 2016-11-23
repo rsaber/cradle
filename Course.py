@@ -4,6 +4,7 @@ from markdown2 import markdown_path
 
 # Navbar object has
 #   a array of navbar elements
+#      Sub elements are put into a array (max 1 level deep)
 #   the current active element
 class Navbar:
     def __init__(self, elements):
@@ -14,10 +15,18 @@ class Navbar:
     def getButtons(self):
         toSend = []
         for name in self.elements:
-            if name == self.active:
-                toSend.append('<button type="submit" name="navbar" value="'+name+'" class="list-group-item list-group-item-action active ">'+name+'</button>')
-            else:
-                toSend.append('<button type="submit" name="navbar" value="'+name+'" class="list-group-item list-group-item-action">'+name+'</button>')
+            if type(name) is str:
+                if name == self.active:
+                    toSend.append('<button type="submit" name="navbar" value="'+name+'" class="list-group-item list-group-item-action active ">'+name+'</button>')
+                else:
+                    toSend.append('<button type="submit" name="navbar" value="'+name+'" class="list-group-item list-group-item-action">'+name+'</button>')
+            elif type(name) is list:
+                if name == self.active:
+                    #expand
+                    toSend.append('<button type="submit" name="navbar" value="' + name + '" class="list-group-item list-group-item-action">' + name + '</button>')
+
+                else:
+                    toSend.append('<button type="submit" name="navbar" value="' + name + '" class="list-group-item list-group-item-action">' + name + '</button>')
         return toSend
 
 # Course object has

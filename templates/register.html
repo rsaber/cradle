@@ -31,12 +31,31 @@
                     <h1> Join Cradle Now! </h1>
                     <form method="post">
                         <input type="text" class="form-control" placeholder="Your Name" name="name" value = {{ name }}>
+                        {% if emailFail %}
+                            <div class="form-group has-error">
+                        {% endif %}
                         <input type="text" class="form-control" placeholder="Your Email" name="email" value = {{ email }}>
-                        {% if emailFail %}<p style="color: red"> This email is already in use! </p> {% endif %}
+                        {% if emailFail %}
+                            <label class="control-label" for="inputError">Email already in use</label>
+                            </div>
+                        {% endif %}
+                        {% if passwordFail or passwordCharFail %}
+                            <div class="form-group has-error">
+                        {% endif %}
                         <input type="password" class="form-control" placeholder="Your Password" name="password1">
-                        {% if passwordFail %}<p style="color: red"> Your Passwords don't match! </p> {% endif %}
-                        {% if passwordCharFail %}<p style="color: red"> Your Password must be 6 or more characters! </p> {% endif %}
                         <input type="password" class="form-control" placeholder="Confirm Password" name="password2">
+                        {% if passwordFail and not passwordCharFail %}
+                            <label class="control-label" for="inputError">Passwords Don't Match</label>
+                            </div>
+                        {% endif %}
+                        {% if passwordFail and passwordCharFail %}
+                            <label class="control-label" for="inputError">Passwords Don't Match</label>
+                            <br>
+                        {%  endif %}
+                        {% if passwordCharFail %}
+                            <label class="control-label" for="inputError">Password must be 6 or more characters long</label>
+                            </div>
+                        {% endif %}
                         <button type="submit" class="btn btn-default">Submit</button>
                     </form>
                 </div>
