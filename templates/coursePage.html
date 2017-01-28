@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>{% block title %}{% endblock %}title</title>
-	<link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon">
+		<title>{% block title %}{% endblock %}{{ course }}</title>
+	<link rel="shortcut icon" href="../static/favicon.ico?ver=3" type="image/x-icon" />
 	<link rel="stylesheet" href="../static/bootstrap.css" type="text/css">
-	<link rel="stylesheet" href="../static/main.css" type="text/css">
+	<link rel="stylesheet" href="../static/main.css?version=3" type="text/css">
 	</head>
 	<body>
 	<!--Navbar-->
@@ -18,13 +18,12 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand navbar-header-font" href="#">cradle<span class="glyphicon glyphicon-tent"></span></a>
+				<a class="navbar-brand navbar-header-font" href="/">Cradle</a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">WXYZ0001 <span class="sr-only">(current)</span></a></li>
-					<li><a href="#">John Smith</a></li>
+					<li class="active"><a href="#">{{ course }} <span class="sr-only">(current)</span></a></li>
 				</ul>
 				<ul class="nav navbar-right">
 				<form class="navbar-form navbar-right" role="search">
@@ -41,18 +40,15 @@
 			<div class="col-md-2">
 				<!--Sidebar-->
 				<div class="list-group">
-					<button type="button" class="list-group-item list-group-item-action active">Homepage</button>
-					<button type="button" class="list-group-item list-group-item-action">Course Outline</button>
-					<button type="button" class="list-group-item list-group-item-action">Timetable</button>
-					<button type="button" class="list-group-item list-group-item-action">Labs</button>
-					<button type="button" class="list-group-item list-group-item-action">Assignments</button>
-					<button type="button" class="list-group-item list-group-item-action disabled">Tutors</button>
+                    <form method="POST">
+                        {% for button in navbar %}
+                            {{ button|safe }}
+                        {% endfor %}
+                    </form>
 				</div>
 			</div>
 			<div class="col-md-6">
-				<h2>Welcome to WXYZ1234!</h2>
-				<h4>This text will be written in Markdown and published using cradle</h4>
-				<p>Hi everyone, welcome to this course. I hope you learn everything you need to</p>
+                {{ content|safe }}
 			</div>
 		</div>
 	</div>
